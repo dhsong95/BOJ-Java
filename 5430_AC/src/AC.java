@@ -1,64 +1,91 @@
 import java.lang.StringBuilder;
 
-public class AC {
-    public int[] arr;
+class AC {
+    private int[] operand;
+    private String op;
 
+    //constructor
     public AC(){
-    	arr = new int[100000];
+    	operand = new int[10000];
+        op = "";
     }
-    public AC(int size){
-    	arr = new int[size];
-    }
-
-    public int[] getArr(){
-    	return arr;
-    }
-    public void setArr(int arr[]){
-    	this.arr = arr;
+    public AC(int[] operand, String op){
+    	this.operand = operand;
+        this.op = op;
     }
 
-    public String R(){
-    	int cur_len = arr.length;
-    	int[] res = new int[cur_len];
-
-    	for(int i = 0; i < cur_len; i++){
-    		res[i] = arr[cur_len - 1 - i];
-		}
-		arr = res;
-		return printArray();
+    //setter and getter
+    public int[] getOperand(){
+    	return operand;
     }
-    public String D(){
-    	int cur_len = arr.length;
-    	if(cur_len == 0){
-    		return "error";
-    	}
-
-    	int[] res = new int[cur_len-1];
-    	for(int i = 1; i < cur_len; i++){
-    		res[i-1] = arr[i];
-    	}
-
-    	arr = res;
-    	return printArray();
+    public void setOperand(int[] operand){
+    	this.operand = operand;
     }
-    public String printArray(){
-    	int cur_len = arr.length;
-    	if (cur_len == 0){
-    		return "[]";
-    	}
+    public String getOp(){
+        return op;
+    }
+    public void setOp(String op){
+        this.op = op;
+    }
 
-    	StringBuilder sb = new StringBuilder();
-    	sb.append('[');
-    	for(int i = 0; i < cur_len; i++){
-    		sb.append(arr[i]);
-    		if(i == cur_len - 1){
-    			sb.append(']');
-    		}
-    		else {
-    			sb.append(',');
-    		}
-    	}
+    public String calc(){
+        int head = 0;
+        int tail = operand.length - 1;
+        int ptr = head;
 
-    	return sb.toString();
+        int numberOfR = 0;
+
+        for(int i = 0; i < op.length(); i++){
+            char curOp = op.charAt(i);
+            if(curOp == 'R'){
+                numberOfR++;
+                if(ptr == head){
+                    ptr = tail;
+                }
+                else if(ptr == tail){
+                    ptr = head;
+                }
+            }
+            else if(curOp == 'D'){
+                try{
+                    operand[ptr] = -1;
+                    if(ptr == head){
+                        head += 1;
+                        ptr = head;
+                    }
+                    else if(ptr == tail){
+                        tail -= 1;
+                        ptr = tail;
+                    }
+                }
+                catch(Exception e){
+                    return "error\n";
+                }
+            }
+        }
+
+        return print(numberOfR);
+    }
+
+    public String print(int numberOfR){
+        StringBuilder sb = new StringBuilder();
+        if(numberOfR % 2 == 0){
+            for(int i = 0; i < operand.length; i++){
+                if(operand[i] != -1){
+                    sb.append(operand[i] + ",");
+                }
+            }
+        }
+        else{
+            for(int i = operand.length - 1; i > -1; i--){
+                if(operand[i] != -1){
+                    sb.append(operand[i] + ",");
+                }
+            }
+        }
+        String res = sb.toString();
+
+        res = res.length() > 0 ? String.format("[%s]\n", res.substring(0, res.length() - 1)) : "[]\n";
+        return res;
     }
 }

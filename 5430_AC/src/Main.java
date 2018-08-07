@@ -11,36 +11,24 @@ public class Main {
     	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     	int testCase = Integer.parseInt(br.readLine());
-    	
+    	String[] operand_str;
+        StringBuilder res = new StringBuilder();
     	for(int i = 0; i < testCase; i++){
     		String operators = br.readLine();
-    		int arraySize = Integer.parseInt(br.readLine());
-    		StringBuilder arr_str = new StringBuilder(br.readLine());
-    		arr_str = new StringBuilder(arr_str.substring(1, arr_str.length() - 1));
-    		String[] arr_s = arr_str.toString().split(",");
-    		
-    		int[] arr = new int[arraySize];
-    		for(int j = 0; j < arraySize; j++){
-    			arr[j] = Integer.parseInt(arr_s[j]);
-    		}
+    		int[] operand = new int[Integer.parseInt(br.readLine())];
+    		operand_str = br.readLine().replaceAll("[\\[\\]]", "").split(",");
+            
+            for(int j = 0; j < operand.length; j++){
+                operand[j] = Integer.parseInt(operand_str[j]);
+            }
 
-    		AC ac = new AC(arraySize);
-    		ac.setArr(arr);
+            AC ac = new AC(operand, operators);
 
-    		StringBuilder res = new StringBuilder();
-    		for(int k = 0; k < operators.length(); k++){
-    			char op = operators.charAt(k);
-    			if(op == 'R'){
-    				res = new StringBuilder(ac.R());
-    			}
-    			else if(op == 'D'){
-    				res = new StringBuilder(ac.D());
-    			}
-    		}
-    		bw.write(res.toString() + "\n");
-    		bw.flush();
+            res.append(ac.calc());
     	}
 
+        bw.write(res.toString());
+    
     	br.close();
     	bw.close();
 
