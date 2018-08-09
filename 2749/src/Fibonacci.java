@@ -12,9 +12,13 @@ public class Fibonacci {
 	public int fib_mod(){
 		ArrayList<Integer> period_arr = pisano(divider);
 		
-		int m = (int)(n % period_arr.size());
-
-		return period_arr.get(m);
+		if(n == 0){
+			return 1;
+		}
+		else {
+			int m = (int)(n % period_arr.size());
+			return period_arr.get(m);	
+		}
 	}   
 	private ArrayList<Integer> pisano(int d){
 		ArrayList<Integer> period_arr = new ArrayList<>();
@@ -31,6 +35,8 @@ public class Fibonacci {
 				period_arr.add(b);
 			}
 			else{
+				int last_idx = period_arr.size() - 1;
+				period_arr.remove(last_idx);
 				break;
 			}			
 		}

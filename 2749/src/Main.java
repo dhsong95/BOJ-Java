@@ -9,11 +9,11 @@ public class Main {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    	long n = Integer.parseInt(br.readLine());
-    	Fibonacci fib = new Fibonacci(n);
+    	long n = Long.parseLong(br.readLine());
     	
+    	Fibonacci fib = new Fibonacci(n);
     	int res = fib.fib_mod();
-	
+
 		bw.write(String.valueOf(res));
     	bw.flush();
 
